@@ -6,74 +6,103 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 public class MyFrame extends JFrame implements ActionListener{
-    JButton Red;
-    JButton Blue;
-    JPanel panel;
+    //global variables so Action Listener can access them
+    JButton button;
+    JPanel outputSquare;
+    JRadioButton rb1,rb2,rb3;
+    JCheckBox checkBox;
     
     MyFrame(){
-        JLabel label = new JLabel();
-
+        //create a title with a black border at the top of the frame
+        JLabel title = new JLabel();
         Border border = BorderFactory.createLineBorder(Color.BLACK);
+         
+        title.setText("Sample  Java GUI");
+        title.setFont(new Font("MV  Boli", Font.PLAIN,20));
+        title.setOpaque(true);
+        title.setVerticalAlignment(JLabel.TOP);
+        title.setBorder(border);
 
-        panel = new JPanel();
-        panel.setBackground(Color.BLACK);
-        panel.setBounds(100,100,100,100);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setBounds(100,0,250,30);
+
        
-        label.setText("Sample  Java GUI");
-        label.setFont(new Font("MV  Booli", Font.PLAIN,20));
-        label.setOpaque(true);
-        label.setVerticalAlignment(JLabel.TOP);
-        label.setBorder(border);
+        //the output square is a panel that changes color based on the buttons
+        outputSquare = new JPanel();
+        outputSquare.setBackground(Color.BLACK);
+        outputSquare.setBounds(100,100,100,100);
+      
+        //creates button that turns the square red
+        button = new JButton();
+        button.setBounds(400,100,100,50);
+        button.addActionListener(this);
+        button.setText("Red");
 
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setBounds(100,0,250,30);
+        // Create the radio buttons 
+        rb1 = new JRadioButton("Blue");
+        rb1.setBounds(0,200,150,50);
+        rb2 = new JRadioButton("Green");
+        rb2.setBounds(0,250,150,50);
+        rb3 = new JRadioButton("Yellow");
+        rb3.setBounds(0,300,150,50);
+    
+        rb1.addActionListener(this);
+        rb2.addActionListener(this);
+        rb3.addActionListener(this);
 
-        Red = new JButton();
-        Red.setBounds(400,100,100,50);
-        createButton(Red, "Red");
-        //button.addActionListener(e -> System.out.print("test"));
-
-        Blue = new JButton();
-        Blue.setBounds(400,160,100,50);
-        createButton(Blue, "Blue");
+        // Group the radio buttons. This ensures only one is selectable.
+        ButtonGroup group = new ButtonGroup();
+        group.add(rb1);
+        group.add(rb2);
+        group.add(rb3);
         
 
+        //checkbox that changes the square's visibility
+        checkBox = new JCheckBox("Visible", true);
+        checkBox.setBounds(0,0,100,100);
+        checkBox.addActionListener(this);
 
+       
+        //add  all items into the frame
+        this.add(title);
+        this.add(button);
+        this.add(outputSquare);
+        this.add(rb1);
+        this.add(rb2);
+        this.add(rb3);
+        this.add(checkBox);
 
-        this.add(label);
-        this.add(Red);
-        this.add(Blue);
-        this.add(panel);
-
+        //additional frame settinigs
         this.setSize(500, 500);
-        this.setTitle("Peg Solitare");
+        this.setTitle("Sprint 0");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(null);
-        this.setVisible(true);
-        
-        
-        
-
+        this.setVisible(true);  
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource() == Red){
-            System.out.println("Red");
-            panel.setBackground(Color.RED);
-            //button.setEnabled(false);
+        //changes the color of the output square based on the input
+        if(e.getSource() == checkBox){
+            System.out.println("checkBox" + checkBox.isSelected());
+            outputSquare.setVisible(checkBox.isSelected());
+        }  
+        if(e.getSource() == button){
+            System.out.println("button");
+            outputSquare.setBackground(Color.RED);
         }
-        if(e.getSource() == Blue){
-            System.out.println("Blue");
-            panel.setBackground(Color.BLUE);
-            //button.setEnabled(false);
+        if(e.getSource() == rb1){
+            System.out.println("rb1");
+            outputSquare.setBackground(Color.BLUE);
         }
-    }
-
-    public void createButton(JButton button, String name){
-        button.addActionListener(this);
-        button.setText(name);
-        //button.setFocusable(false);
+         if(e.getSource() == rb2){
+            System.out.println("rb2");
+            outputSquare.setBackground(Color.GREEN);
+        }
+         if(e.getSource() == rb3){
+            System.out.println("rb3");
+            outputSquare.setBackground(Color.YELLOW);
+        }  
     }
 }
